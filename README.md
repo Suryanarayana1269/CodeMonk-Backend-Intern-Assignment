@@ -73,7 +73,7 @@ codemonk_project/
 ## ⚙️ Setup & Run Instructions
 
 ### **Backend**
-**Pre-requisites:** Docker & Docker Compose installed.
+**Pre-requisites:** Docker & Docker Compose installed also activate the Virtual Environment.
 
 ```bash
 cd codemonk_backend
