@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: codemonkdb
+      POSTGRES_USER: codemonkuser
+      POSTGRES_PASSWORD: codemonkpass
+    ports:
+      - "5432:5432"
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+  web:
+    build: .
+    command: bash -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=backend.settings
+    depends_on:
+      - db
+      - redis
+  celery:
+    build: .
+    command: celery -A backend worker -l info
+    depends_on:
+      - db
+      - redis
